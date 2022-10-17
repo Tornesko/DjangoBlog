@@ -1,6 +1,6 @@
-media
-static
+blog/media
+blog/static
 .idea/
 db.sqlite3
-../venv/
+venv
 blog/__pycache__/
