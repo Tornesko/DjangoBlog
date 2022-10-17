@@ -34,9 +34,22 @@
       <li>
       <br/>
       <hr>
-       <p><a href="{% url 'profile' comment.user.profile.id %}" style="text-decoration: none"> {{ comment.user.username }}</a></p>
+       <p><a href="{% url 'profile' comment.user.profile.id %}" style="text-decoration: none"> {{ comment.user.username }}</a>
+       {% if user.id == comment.user.id %}
+           <a href="{% url 'delete_comment' comment.id %}"><small class="text-muted">(Delete)</small></a>
+           <a href="{% url 'update_comment' comment.id %}"><small class="text-muted">(Update)</small></a>
+        {% endif %}
+       </p>
+
        <p>{{ comment.text }}</p>
-          <p><small class="text-muted">{{ comment.time_create }}</small></p>
+          <p><small class="text-muted">
+              {% if comment.time_update %}
+                  edited: {{ comment.time_update }}
+              {% else %}
+              {{ comment.time_create }}</small>
+              {% endif %}
+          </p>
+
       <hr>
       </li>
     {% endfor %}

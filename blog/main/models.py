@@ -24,7 +24,7 @@ class Profile(models.Model):
     facebook_url = models.CharField(max_length=255, null=True, blank=True)
     instagram_url = models.CharField(max_length=255, null=True, blank=True)
     twitter = models.CharField(max_length=255, null=True, blank=True)
-
+    # subscribes = models.ManyToManyField(User, blank=True)
     def __str__(self):
         return str(self.user)
 
@@ -76,7 +76,7 @@ class Comment(models.Model):
     )
 
     time_create = models.DateTimeField(auto_now_add=True)
-    time_update = models.DateTimeField(auto_now_add=True)
+    time_update = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return str(self.post)

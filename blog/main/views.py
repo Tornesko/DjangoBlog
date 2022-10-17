@@ -158,7 +158,16 @@ class CommentsView(ListView):
 
 class UpdateCommentView(UpdateView):
     model = Comment
+    template_name = 'comment_update.html'
+    fields = ('text',)
+
+    def get_success_url(self):
+        return reverse_lazy('comments', args=(self.object.post.id,))
 
 
 class DeleteCommentView(DeleteView):
     model = Comment
+    template_name = 'comment_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('comments', args=(self.object.post.id,))
