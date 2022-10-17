@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ post.title_tag }}
+{% endblock %}
+{% block content %}
+<div class="card mb-3">
+    {% if post.header_image %}
+  <img src="{{ post.header_image.url }}" class="card-img-top" width="auto" height=auto alt="...">
+    {% endif %}
+  <div class="card-body">
+    <h2 class="card-title" style="text-align: center">{{ post.title }}</h2>
+    <p class="card-text">{{ post.body|safe }}</p>
+    <p class="card-text"><small class="text-muted">Created {{ post.time_create }}</small></p>
+
+
+  <div class="btn-group" role="group" aria-label="Basic example">
+
+      {% if user.is_authenticated %}
+        <form action="{% url 'like_post' post.pk %}" method="POST">
+         {% csrf_token %}
+            {% if liked %}
+                <button type="submit" name="post_id"
+                 value="{{ post.id }}" class="btn btn-secondary"
+                ><i class="fa-regular fa-heart">{{ total_likes }}</i></button>
+            {% else %}
+                <button type="submit" name="post_id"
+                value="{{ post.id }}" class="btn btn-secondary"
+                ><i class="fa-regular fa-heart">{{ total_likes }}</i> </button>
+            {% endif %}
+        </form>
+    {% else %}
+          <button type="button" class="btn btn-secondary">
+        <a href="{% url 'login' %}" style="color: black; text-decoration: none;"><i class="fa-regular fa-heart">{{ total_likes }}</i></a>
+          </button>
+    {% endif %}
+
+
+  <button type="button" class="btn btn-secondary">
+      <a href="{% url 'comments' post.id %}" style="color: lemonchiffon ; text-decoration: none;">Comments</a>
+  </button>
+</div>
+    {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
+            <br/><br/>
+            <a href="{% url 'edit_post' post.pk %}" class="btn btn-dark">Edit Post</a>
+             <a href="{% url 'delete_post' post.pk %}" class="btn btn-dark">Delete Post</a>
+        {% endif %}
+    {% endif %}
+
+  </div>
+</div>
+<br/>
+<h3><small class="text-muted">Author</small></h3>
+<a href="{% url 'profile' post.author.profile.id %}" style="text-decoration: none">
+<div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col-md-2">
+        {% if post.author.profile.ava %}
+            <img src="{{ post.author.profile.ava.url }}" class="card-img"  alt="...">
+        {% else %}
+            <img src="{% static 'main/images/blank-ava.jpg' %}" class="card-img"  alt="...">
+        {% endif %}
+    </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">
+            {{ post.author.username }}
+        </h5>
+
+
+{#        <a href="{% url 'home' %}" class="btn btn-dark">Back</a>#}
+
+      </div>
+    </div>
+  </div>
+</div>
+</a>
+
+{% endblock %}

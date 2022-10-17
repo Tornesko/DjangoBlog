@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    comments
+{% endblock %}
+{% block content %}
+<hr>
+       <br/>
+    <a href="{% url 'profile' post.author.profile.id %}" style="text-decoration: none">
+       {% if post.author.profile.ava %}
+            <img src="{{ post.author.profile.ava.url }}" class="rounded-circle"  alt="..." width=25 height=25>
+        {% else %}
+            <img src="{% static 'main/images/blank-ava.jpg' %}" class="rounded-circle"  alt="..." width=25 height=25>
+        {% endif %}
+       <small>{{ post.author.username }}
+        </small></a>
+    <br/>
+        <a href="{% url 'post' post.pk %}" style="text-decoration: none"><li style="list-style: none">{{ post.title }}
+        <br/>
+        {{ post.snippet }}
+
+            <br/>
+        <small><a href="{% url 'see_by_category' post.category.slug %}" style="text-decoration: none">{{ post.category }}</a></small>
+        <br/>&#128149; <small>{{ post.total_likes }}</small>
+        </li></a>
+       <br/>
+       <hr>
+<h1>Comments</h1>
+<a href="{% url 'add_comment' post.id %}" class="btn btn-dark">Add Comment</a>
+<br/><br/>
+
+<ul style="list-style: none;">
+   {% for comment in comments %}
+      <li>
+      <br/>
+      <hr>
+       <p><a href="{% url 'profile' comment.user.profile.id %}" style="text-decoration: none"> {{ comment.user.username }}</a></p>
+       <p>{{ comment.text }}</p>
+          <p><small class="text-muted">{{ comment.time_create }}</small></p>
+      <hr>
+      </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
