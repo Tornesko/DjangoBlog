@@ -25,33 +25,34 @@
         </li></a>
        <br/>
        <hr>
-<h1>Comments</h1>
+<h1>Comments ({{ post.total_comments }})</h1>
 <a href="{% url 'add_comment' post.id %}" class="btn btn-dark">Add Comment</a>
 <br/><br/>
 
 <ul style="list-style: none;">
    {% for comment in comments %}
-      <li>
+{#      <li>#}
       <br/>
       <hr>
-       <p><a href="{% url 'profile' comment.user.profile.id %}" style="text-decoration: none"> {{ comment.user.username }}</a>
+       <a href="{% url 'profile' comment.user.profile.id %}" style="text-decoration: none"> {{ comment.user.username }}</a>
        {% if user.id == comment.user.id %}
            <a href="{% url 'delete_comment' comment.id %}"><small class="text-muted">(Delete)</small></a>
            <a href="{% url 'update_comment' comment.id %}"><small class="text-muted">(Update)</small></a>
         {% endif %}
-       </p>
+        <br/>
 
-       <p>{{ comment.text }}</p>
-          <p><small class="text-muted">
-              {% if comment.time_update %}
-                  edited: {{ comment.time_update }}
-              {% else %}
-              {{ comment.time_create }}</small>
-              {% endif %}
-          </p>
+       {{ comment.text }}
+      <br/>
+
+                 <small class="text-muted">created: {{ comment.time_create }}</small>
+                {% if comment.time_update.second != comment.time_create.second %}
+                    <br/><small class="text-muted">updated: {{ comment.time_update }}</small>
+                {% endif %}
+
+
 
       <hr>
-      </li>
+{#      </li>#}
     {% endfor %}
 </ul>
 

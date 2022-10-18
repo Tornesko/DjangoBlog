@@ -37,7 +37,7 @@
 
 
   <button type="button" class="btn btn-secondary">
-      <a href="{% url 'comments' post.id %}" style="color: lemonchiffon ; text-decoration: none;">Comments</a>
+      <a href="{% url 'comments' post.id %}" style="color: lemonchiffon ; text-decoration: none;">Comments {{ post.total_comments }}</a>
   </button>
 </div>
     {% if user.is_authenticated %}
