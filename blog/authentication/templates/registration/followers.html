@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>Followers</h1>
+
+<ul style="list-style: none;">
+   {% for profile in object_list %}
+
+       <hr>
+       <br/>
+       <a href="{% url 'profile' profile.id %}" style="text-decoration: none">
+       {% if profile.ava %}
+            <img src="{{ profile.ava.url }}" class="rounded-circle"  alt="..." width=25 height=25>
+        {% else %}
+            <img src="{% static 'main/images/blank-ava.jpg' %}" class="rounded-circle"  alt="..." width=25 height=25>
+        {% endif %}
+       <small>{{ profile.user.username }}
+        </small></a>
+    {% endfor %}
+</ul>
+
+{% endblock %}

@@ -25,7 +25,14 @@ class Profile(models.Model):
     facebook_url = models.CharField(max_length=255, null=True, blank=True)
     instagram_url = models.CharField(max_length=255, null=True, blank=True)
     twitter = models.CharField(max_length=255, null=True, blank=True)
-    # subscribes = models.ManyToManyField(User, blank=True)
+    followers = models.ManyToManyField('self', blank=True)
+
+    def total_followers(self):
+        return self.followers.count()
+
+    def total_posts(self):
+        return self.user.post_set.count()
+
     def __str__(self):
         return str(self.user)
 

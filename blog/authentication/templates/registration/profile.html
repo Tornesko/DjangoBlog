@@ -26,16 +26,28 @@
             {{ user_pr.user.last_name }}
           </h5>
             {{ user_pr.bio }}
-{#          {% if user_pr.user.is_active %}#}
-{#            <h5>online</h5>#}
-{#          {% else %}#}
-{#            <h5>offline</h5>#}
-{#          {% endif %}#}
 
-
-
-{#        <a href="{% url 'home' %}" class="btn btn-dark">Back</a>#}
-       <br/><br/> <a href="{% url 'posts_by_user' user_pr.user.id %}" class="btn btn-dark">My Posts</a>
+       <br/><br/> <a href="{% url 'posts_by_user' user_pr.user.id %}" class="btn btn-dark">Posts {{ user_pr.total_posts }}</a>
+       <a href="{% url 'followers' user_pr.id %}" class="btn btn-dark">Followers {{ user_pr.total_followers }}</a>
+      {% if user.is_authenticated %}
+          {% if user.id != user_pr.user.id %}
+              {% if followed %}
+                  <br/><br/>
+                  <form action="{% url 'subscribe' user_pr.pk %}" method="post" >
+                       {% csrf_token %}
+                       <button type="submit" name="profile_id" value="{{ user_pr.id }}" class="btn btn-secondary"><small>Unsubscribe</small></button>
+                   </form>
+              {% else %}
+                   <br/><br/>
+                  <form action="{% url 'subscribe' user_pr.pk %}" method="post" >
+                       {% csrf_token %}
+                       <button type="submit" name="profile_id" value="{{ user_pr.id }}" class="btn btn-danger">Subscribe</button>
+                   </form>
+              {% endif %}
+          {% endif %}
+       {% else %}
+          {{ user_pr.total_followers }}
+      {% endif %}
       </div>
     </div>
   </div>
