@@ -3,6 +3,4 @@ blog/static
 .idea/
 db.sqlite3
 venv
-blog/__pycache__/
-blog/main/__pycache__/
-/__pycache__/
+__pycache__/
