@@ -5,7 +5,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .forms import PostForm, EditForm, CategoryForm, CommentForm
-from .models import Post, Category, Comment
+from .models import Post, Category, Comment, Profile
 
 
 class HomeView(ListView):
@@ -171,3 +171,21 @@ class DeleteCommentView(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('comments', args=(self.object.post.id,))
+
+
+class PostsByFollowsView(ListView):
+    template_name = "posts_by_follows.html"
+    # model = Post
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        queryset = Post.objects.filter(author__profile__followers=pk)
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        cat_menu = Category.objects.all()
+        context["cat_menu"] = cat_menu
+
+        return context

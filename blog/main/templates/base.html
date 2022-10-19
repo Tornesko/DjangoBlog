@@ -54,7 +54,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'add_category' %}">Add category</a>
                 </li>
-            {%  endif %}
+                <li>
+                    {% if user.profile.id %}
+                        <a class="nav-link" href="{% url 'posts_by_follows' user.profile.id %}" style="color: darkgray; text-decoration: none;">Follows</a>
+                    {% else %}
+                        <a class="nav-link" href="{% url 'create_profile' %}" style="color: bisque; text-decoration: none;">Create Profile</a>
+                    {% endif %}</li>
+                {%  endif %}
         </ul>
     {% if user.is_authenticated %}
         {% if user.profile.id %}

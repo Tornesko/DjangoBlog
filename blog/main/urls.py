@@ -16,4 +16,5 @@ urlpatterns = [
     path('post/<int:pk>/add_comment/', AddCommentView.as_view(), name="add_comment"),
     path('comment/<int:pk>/delete/', DeleteCommentView.as_view(), name="delete_comment"),
     path('comment/<int:pk>/update/', UpdateCommentView.as_view(), name="update_comment"),
+    path('posts/follows/<int:pk>/', PostsByFollowsView.as_view(), name="posts_by_follows")
 ]

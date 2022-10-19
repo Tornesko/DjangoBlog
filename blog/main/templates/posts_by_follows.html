@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Follows posts
+{% endblock %}
+{% block content %}
+
+
+<ul style="list-style: none;">
+   {% for post in object_list %}
+{#       {{ profile.id }}#}
+{#       {% if profile in post.author.profile.followers %}#}
+       <hr>
+       <br/>
+       <a href="{% url 'profile' post.author.profile.id %}" style="text-decoration: none">
+       {% if post.author.profile.ava %}
+            <img src="{{ post.author.profile.ava.url }}" class="rounded-circle"  alt="..." width=25 height=25>
+        {% else %}
+            <img src="{% static 'main/images/blank-ava.jpg' %}" class="rounded-circle"  alt="..." width=25 height=25>
+        {% endif %}
+       <small>{{ post.author.username }}
+        </small></a>
+       <br/>
+        <a href="{% url 'post' post.pk %}" style="text-decoration: none"><li>{{ post.title }}<br/>
+        {{ post.snippet }}
+
+            <br/>
+        <small><a href="{% url 'see_by_category' post.category.slug %}" style="text-decoration: none">{{ post.category }}</a></small>
+        <br/>&hearts; <small>{{ post.total_likes }}</small>
+        </li></a>
+       <br/>
+       <hr>
+{#       {% endif %}#}
+    {% endfor %}
+</ul>
+
+{% endblock %}
