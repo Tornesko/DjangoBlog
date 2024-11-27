@@ -7,6 +7,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .forms import PostForm, EditForm, CategoryForm, CommentForm
 from .models import Post, Category, Comment, Profile
 
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+
 
 class HomeView(ListView):
     model = Post
@@ -195,10 +197,17 @@ class PostsByFollowsView(ListView):
 def calculate_sentiment(request, pk):
     post = get_object_or_404(Post, id=pk)
 
-    # here must be model
-    from random import choice
-    sentiment_values = ['Positive', 'Negative', 'Neutral']
-    sentiment_result = choice(sentiment_values)
+    analyzer = SentimentIntensityAnalyzer()
+
+    sentiment_scores = analyzer.polarity_scores(post.body)
+    sentiment = sentiment_scores['compound']
+
+    if sentiment >= 0.05:
+        sentiment_result = 'Positive'
+    elif sentiment <= -0.05:
+        sentiment_result = 'Negative'
+    else:
+        sentiment_result = 'Neutral'
 
     post.sentiment = sentiment_result
     post.save()
