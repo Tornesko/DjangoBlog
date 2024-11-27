@@ -4,7 +4,15 @@
 {{ post.title_tag }}
 {% endblock %}
 {% block content %}
-<div class="card mb-3">
+<div class="card mb-3
+    {% if sentiment == 'Positive' %}
+        border-warning
+    {% elif sentiment == 'Negative' %}
+        border-primary
+    {% else %}
+        border-light
+    {% endif %}
+">
     {% if post.header_image %}
     <img src="{{ post.header_image.url }}" class="card-img-top" width="auto" height=auto alt="...">
     {% endif %}

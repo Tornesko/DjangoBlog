@@ -8,8 +8,13 @@
 
 <ul style="list-style: none;">
    {% for post in object_list %}
-{#       {{ profile.id }}#}
-{#       {% if profile in post.author.profile.followers %}#}
+
+    <div class="{% if post.sentiment == 'Positive' %}
+                   positive
+               {% elif post.sentiment == 'Negative' %}
+                   negative
+               {% else %}
+               {% endif %}">
        <hr>
        <br/>
        <a href="{% url 'profile' post.author.profile.id %}" style="text-decoration: none">
@@ -30,7 +35,7 @@
         </li></a>
        <br/>
        <hr>
-{#       {% endif %}#}
+    </div>
     {% endfor %}
 </ul>
 
