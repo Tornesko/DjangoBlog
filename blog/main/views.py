@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -48,6 +48,7 @@ class PostView(DetailView):
         context["cat_menu"] = cat_menu
         context["total_likes"] = total_likes
         context["liked"] = liked
+        context["sentiment"] = stuff.sentiment
         return context
 
 
@@ -189,3 +190,17 @@ class PostsByFollowsView(ListView):
         context["cat_menu"] = cat_menu
 
         return context
+
+
+def calculate_sentiment(request, pk):
+    post = get_object_or_404(Post, id=pk)
+
+    # here must be model
+    from random import choice
+    sentiment_values = ['Positive', 'Negative', 'Neutral']
+    sentiment_result = choice(sentiment_values)
+
+    post.sentiment = sentiment_result
+    post.save()
+
+    return HttpResponseRedirect(reverse('post', args=[str(post.pk)]))
