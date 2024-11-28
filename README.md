@@ -124,13 +124,6 @@ Before you begin, ensure you have the following installed:
 - Access the admin panel at `http://127.0.0.1:8000/admin/` using the superuser credentials.
 - Start creating blog posts, manage users, and interact with the site.
 
-## Contributing
-
-Contributions are welcome! Please fork this repository and submit a pull request for any feature requests or bug fixes.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
 
 
 ```plaintext
