@@ -131,3 +131,53 @@ Contributions are welcome! Please fork this repository and submit a pull request
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
+
+
+```plaintext
+DjangoBlog/
+├── blog/                # Головний додаток блогу
+├── config/              # Налаштування Django
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py      # Основні налаштування
+│   ├── urls.py          # Глобальні маршрути
+│   └── wsgi.py
+├── main/                # Додаток для управління постами
+│   ├── migrations/      # Міграції для бази даних
+│   │   └── [міграційні файли...]
+│   ├── templates/       # Шаблони для рендерингу сторінок
+│   │   ├── base.html    # Базовий шаблон
+│   │   ├── home.html    # Головна сторінка
+│   │   ├── add_post.html # Шаблон створення постів
+│   │   ├── update_post.html # Шаблон редагування постів
+│   │   └── [інші шаблони...]
+│   ├── __init__.py
+│   ├── admin.py         # Реєстрація моделей у панелі адміністратора
+│   ├── apps.py          # Конфігурація додатка
+│   ├── forms.py         # Форми для вводу даних
+│   ├── models.py        # Моделі для бази даних
+│   ├── tests.py         # Тестування
+│   ├── urls.py          # Локальні маршрути додатка
+│   └── views.py         # Логіка відображення сторінок
+├── authentication/      # Додаток для реєстрації та авторизації
+│   ├── migrations/
+│   │   └── [міграційні файли...]
+│   ├── templates/       # Шаблони для логіна та реєстрації
+│   │   ├── registration/
+│   │   │   ├── login.html
+│   │   │   ├── register.html
+│   │   │   └── [інші шаблони...]
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── media/               # Медійні файли
+│   ├── images/          # Зображення профілів
+│   │   └── profile/
+│   │       └── [зображення профілів...]
+├── db.sqlite3           # База даних SQLite
+└── manage.py            # Командний менеджер Django
