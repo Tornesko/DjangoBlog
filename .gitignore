@@ -1,5 +1,4 @@
 blog/media
-blog/static
 .idea/
 db.sqlite3
 venv

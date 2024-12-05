@@ -2,6 +2,7 @@ from autoslug import AutoSlugField
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import TextChoices
 from django.urls import reverse
 from django.utils import timezone
 
@@ -37,18 +38,28 @@ class Profile(models.Model):
         return str(self.user)
 
 
+class Sentiment(TextChoices):
+    POSITIVE = 'Positive', 'Positive'
+    NEGATIVE = 'Negative', 'Negative'
+    NEUTRAL = 'Neutral', 'Neutral'
+
+
 class Post(models.Model):
     title = models.CharField(max_length=255)
     header_image = models.ImageField(null=True, blank=True, upload_to="images/")
     title_tag = models.CharField(max_length=255)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    # body = models.TextField()
     body = RichTextField(blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     snippet = models.CharField(max_length=255)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     likes = models.ManyToManyField(User, related_name='blog_posts')
+    sentiment = models.CharField(
+        max_length=10,
+        choices=Sentiment.choices,
+        default=Sentiment.NEUTRAL,
+    )
 
     def total_likes(self):
         return self.likes.count()

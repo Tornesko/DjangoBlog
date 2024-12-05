@@ -1,11 +1,13 @@
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .forms import PostForm, EditForm, CategoryForm, CommentForm
 from .models import Post, Category, Comment, Profile
+
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 
 class HomeView(ListView):
@@ -48,6 +50,7 @@ class PostView(DetailView):
         context["cat_menu"] = cat_menu
         context["total_likes"] = total_likes
         context["liked"] = liked
+        context["sentiment"] = stuff.sentiment
         return context
 
 
@@ -189,3 +192,24 @@ class PostsByFollowsView(ListView):
         context["cat_menu"] = cat_menu
 
         return context
+
+
+def calculate_sentiment(request, pk):
+    post = get_object_or_404(Post, id=pk)
+
+    analyzer = SentimentIntensityAnalyzer()
+
+    sentiment_scores = analyzer.polarity_scores(post.body)
+    sentiment = sentiment_scores['compound']
+
+    if sentiment >= 0.05:
+        sentiment_result = 'Positive'
+    elif sentiment <= -0.05:
+        sentiment_result = 'Negative'
+    else:
+        sentiment_result = 'Neutral'
+
+    post.sentiment = sentiment_result
+    post.save()
+
+    return HttpResponseRedirect(reverse('post', args=[str(post.pk)]))
